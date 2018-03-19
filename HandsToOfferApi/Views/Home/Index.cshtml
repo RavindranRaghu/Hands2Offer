@@ -1,0 +1,182 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+<div id="bodyhtml">
+    <div style="opacity:0.95;">
+        <div id="mission" class="row" style="box-shadow: 0 3px 8px 0 rgba(0, 0, 0, 0.19)">
+            <div class="col-sm-12">
+                <img style="width:100%; " src="~/Content/img/banner1.png" />
+            </div>
+        </div>
+    </div>
+    <div class="row event">
+        <div class="col-sm-10">
+            <div class="row">
+                <div class="col-sm-12">
+                    <span id="upcomingEventHeader" class="subtitle">Upcoming Events</span>
+                    <span class="glyphicon glyphicon-calendar"> </span>
+                    <a href="#" class="upcomingeventLink" style="padding-left:10px;">See All Upcoming Events</a>
+                    <a href="#" class="volunteerLink" style="padding-left:10px;">New Volunteer Registration</a>
+                </div>
+            </div>
+            <div class="row upcomingeventContainer">
+                <div class="col-sm-12">
+                    <div class="row upcomingevent">
+                        <div class="col-sm-1" style="padding-top:40px;">
+                            <span class="glyphicon glyphicon glyphicon-tag" />
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="row handsCalender">
+                                <div class="col-sm-12 handsDay">23</div>
+                                <div class="col-sm-12 handsMonth">Sep 2018</div>
+                                <div class="col-sm-12 handsWeekday">Saturday</div>
+                            </div>
+                        </div>
+                        <div class="col-sm-7">
+                            <div class="row">
+                                <div class="col-sm-12 handsEventName">
+                                    <a href="#">Soup Service at Dilworth Charlotte</a>
+                                </div>
+                                <div class="col-sm-12 handsWeekday">Address: 1200 East Blvd, Charlotte, NC 28203 (704) 334-3771</div>
+                                <div class="col-sm-12 handsWeekday">7:00 AM to 8:00 AM</div>
+                            </div>
+                        </div>
+                        <div class="col-sm-1" style="padding-top:20px;text-align:center">
+                            <a href="#">
+                                <span class="glyphicon glyphicon-hand-up" />Join
+                            </a>
+                        </div>
+                        <div class="col-sm-1" style="padding-top:20px;text-align:center">
+                            <a href="#">
+                                <span class="glyphicon glyphicon-share" />Share
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row upcomingeventContainer">
+                <div class="col-sm-12">
+                    <div class="row upcomingevent">
+                        <div class="col-sm-1" style="padding-top:40px;">
+                            <span class="glyphicon glyphicon glyphicon-tag" />
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="row handsCalender">
+                                <div class="col-sm-12 handsDay">28</div>
+                                <div class="col-sm-12 handsMonth">Sep 2018</div>
+                                <div class="col-sm-12 handsWeekday">Thursday</div>
+                            </div>
+                        </div>
+                        <div class="col-sm-7">
+                            <div class="row">
+                                <div class="col-sm-12 handsEventName">
+                                    <a href="#">Juice Service at DownTown Charlotte</a>
+                                </div>
+                                <div class="col-sm-12 handsWeekday">Address: 1200 East Blvd, Charlotte, NC 28203 (704) 334-3771</div>
+                                <div class="col-sm-12 handsWeekday">7:00 AM to 8:00 AM</div>
+                            </div>
+                        </div>
+                        <div class="col-sm-1" style="padding-top:20px;text-align:center">
+                            <a href="#">
+                                <span class="glyphicon glyphicon-hand-up" />Join
+                            </a>
+                        </div>
+                        <div class="col-sm-1" style="padding-top:20px;text-align:center">
+                            <a href="#">
+                                <span class="glyphicon glyphicon-share" />Share
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-2 upcomingeventAnimate" id="generaleventContainer">
+            <div class="row" style="padding-top:20px;" id="recenteventheader">
+                <div class="col-sm-12">
+                    <span class="subtitlehelplink">Useful Links:</span>
+                    <span class="glyphicon glyphicon-question-sign" />
+                </div>
+            </div>
+            <div class="row" id="recentevent">
+                <div class="col-sm-12">
+                    <a href="#">Get Notification on all upcoming events</a>
+                </div>
+                <div class="col-sm-12">
+                    <a href="#">Tell my friends about Hands2Offer</a>
+                </div>
+                <div class="col-sm-12">
+                    <a href="#">Create Your Profile in 3 simple steps</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row event" id="recentEventContainer">
+        <div class="col-sm-12">
+            <div class="row recentEventRow">
+                <div class="col-sm-12">
+                    <span class="subtitle">Recent Events</span>
+                    <span class="glyphicon glyphicon-ok-sign"> </span>
+                    <a href="#" class="recenteventLink" style="padding-left:10px;">See All Recent Events</a>
+                </div>
+            </div>
+            <div class="row recentEventRow">
+                <div class="col-sm-12 recentEventText">
+                    Soup Kitchen organized by 12 Members at Dilworth Charlotte NC
+                </div>
+                <div class="col-sm-12 recentEventComment">
+                    Mar 02 2018  | 1499 Winds Charlotte NC 28269
+                </div>
+            </div>
+            <div class="row recentEventRow">
+                <div class="col-sm-12 recentEventText">
+                    Tasty Juice delivered by 14 Members at Charlotte Downtown
+                </div>
+                <div class="col-sm-12 recentEventComment">
+                    Mar 02 2018 | 1499 Winds Charlotte NC 28269
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="projectContainer">
+        <div id="project" class="row">
+            <div class="col-sm-12">
+                <ul class="breadcrumb">
+                    <li class="active" style="font-size:larger;color:rgb(46, 43, 44)"> Projects</li>
+                    <li>
+                        <a href="#">
+                            Donate Books
+                            <img class="iconProject" src="img/book.png" />
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            Soup Kitchen
+                            <img class="iconProject" src="img/soup.jpg" />
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            Serve Juice
+                            <img class="iconProject" src="img/juice.jpg" />
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="projectLink">See All Projects</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+</div>
+<script>
+    $(function () {
+        $("#navbarfaq").hide();
+        setTimeout(function () {
+            $("#generaleventContainer").removeClass('upcomingeventAnimate');
+            $("#generaleventContainer").hide();
+            $("#navbarfaq").show();
+        }, 8000);
+    });
+</script>
+<script type="text/javascript" src="js/onclick.js"></script>

@@ -1,0 +1,150 @@
+
+footer {
+    border-style: solid;
+    border-width: 2px;
+    color:white;
+    width: 100%;
+    position: fixed;
+    bottom:0;
+    background-color: #234b8c;
+    border-color: #234b8c;
+    text-align: center;
+}
+
+.heading{
+    font-size: xx-large;
+    font-family: Helvetica, 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    text-align: center;
+    padding: 20px;
+    color: #234b8c;
+    text-shadow: 2px 2px #d6c9c9;
+}
+
+#music{
+    font-size: 15px;
+}
+
+.subheading{
+    font-size: 15px;
+    font-family: Helvetica, 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    text-align: center;
+}
+
+#searchform{
+    text-align: left;
+    padding: 15px;
+}
+
+.label{
+    color: #234b8c;
+}
+
+#lyrics{
+    border: 1px solid #234b8c 
+}
+
+#Abhayahastha-holder{
+    text-align:center;
+    width:100%;
+    background-color: #234b8c;
+    border-color: #234b8c;
+    border-style: solid;
+    border-width: thin;
+    border-bottom: 1px;
+}
+
+#Abhayahastha{
+    width:100%;
+    max-width:423px;
+}
+
+.btn-info {
+    background-color: #234b8c;
+}
+
+.top10{
+    padding-top: 10px;
+}
+
+.right10{
+    padding-right: 10px;
+}
+
+select{
+    width: 150px;
+    height:1.8em;
+}
+label{
+    color: #234b8c;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+td {
+    padding-top: .5em;
+    padding-right: .25em;
+    padding-bottom: 1em;
+}
+
+#searchform .glyphicon{
+    font-size: 23px;
+}
+#remove{
+    margin-top:10px;
+    color: red;
+    float: right;
+}
+
+
+
+.ser-bottom-grd {
+    width: 4em;
+    height: 4em;
+    border: 3px solid #234b8c;
+    border-radius: 58px;
+	margin: 0 auto;
+}
+.ser-bottom-grd:hover {
+    border: 5px double 234b8c;
+}
+.ser-bottom-grd span {
+    font-size: 2em;
+    color: #B9B6B1;
+    top: 0.5em;
+}
+
+.ser-bottom-grd span.glyphicon {
+    font-size: 1.8em;
+    color: rgb(189, 104, 170);
+    top: 0.5em;
+}
+
+.ser-bottom-grd span.glyphicon:hover {
+    font-size: 1.8em;
+    color: pink;
+    top: 0.5em;
+}
+
+.ser-grid {
+    text-align: center;
+}
+
+.ser-grids {
+    margin-top: 3em;
+}
+.ser-grid h5 {
+    font-size: 1.25em;
+    text-transform: capitalize;
+    margin-top: 1em;
+    color: #222;
+}
+
+.indexFunctionName {
+    font-size: x-large;
+    font-style: italic;
+    padding-left: 5px;
+    padding-bottom: 10px;
+    color: #234b8c;
+}

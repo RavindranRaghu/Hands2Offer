@@ -1,0 +1,185 @@
+﻿@model IEnumerable<HandsToOfferApi.Models.Event>
+
+@{
+    ViewBag.Title = "Event";
+    var message = ViewBag.message;
+}
+
+<link rel="stylesheet" type="text/css" href="~/Content/jquery.dataTables.min.css" />
+
+<style>
+    .ui-timepicker-div .ui-widget-header {
+        margin-bottom: 8px;
+    }
+
+    .ui-timepicker-div dl {
+        text-align: left;
+    }
+
+        .ui-timepicker-div dl dt {
+            height: 25px;
+            margin-bottom: -25px;
+        }
+
+        .ui-timepicker-div dl dd {
+            margin: 0 10px 10px 65px;
+        }
+
+    .ui-timepicker-div td {
+        font-size: 90%;
+    }
+
+    .ui-tpicker-grid-label {
+        background: none;
+        border: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    .ui-timepicker-rtl {
+        direction: rtl;
+    }
+
+        .ui-timepicker-rtl dl {
+            text-align: right;
+        }
+
+            .ui-timepicker-rtl dl dd {
+                margin: 0 65px 10px 10px;
+            }
+</style>
+
+<script type="text/javascript" src="~/Scripts/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="~/Scripts/dataTables.bootstrap.min.js"></script>
+
+<script>
+    $(function () {
+
+        $(document).ready(function () {
+            $('#eventTable').DataTable({
+                "pageLength": 50
+            });
+        });
+    });
+
+</script>
+
+<style>
+    table.dataTable thead .sorting_asc {
+        background: url("../Content/img/sort_asc.png") no-repeat center right;
+    }
+
+    table.dataTable thead .sorting {
+        background: url("../Content/img/sort_both.png") no-repeat center right;
+    }
+
+    table.dataTable thead .sorting_desc {
+        background: url("../Content/img/sort_desc.png") no-repeat center right;
+    }
+</style>
+<div style="padding:10px;padding-top:80px;">
+    <div>
+        <span class="subtitle">Event </span>
+        @Html.ActionLink("Add Event", "CreateEvent")
+        @if (!string.IsNullOrEmpty(message))
+        {
+            <span style="font-size:23px;color:green">
+                <span>@message</span>
+                <span class="glyphicon glyphicon-ok" />
+            </span>
+        }
+    </div>
+        <table id="eventTable" class="table appSubHeading tblList">
+            <thead>
+                <tr>
+                    <th>Edit</th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ProjectName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ProjectDesc)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.StartDate)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.EndDate)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Address)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Phone)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Email)
+                    </th>
+                    <th>Delete</th>
+                    @*
+                        <th>
+                            @Html.DisplayNameFor(model => model.IsActive)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.HasCompleted)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.UpdatedBy)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.UpdatedDate)
+                        </th>*@
+                </tr>
+            </thead>
+
+            @foreach (var item in Model)
+            {
+                <tr class="appBody">
+                    <td>
+                        <a href="/Home/CreateEvent?eventId=@item.EventId" class="btnEdit glyphicon glyphicon-edit"></a>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ProjectName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ProjectDesc)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.StartDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EndDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Address)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Phone)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>
+                    <td>
+                        <button type="button" class="btnEdit glyphicon glyphicon-trash deleteExistingProject"
+                                data-toggle="modal" data-id=@item.ProjectId data-projectname="@item.ProjectName" data-projectdesc="@item.ProjectDesc" data-lastupdated="@item.UpdatedDate" data-target="#projectModal"></button>
+                    </td>
+                    @*<td>
+                            @Html.DisplayFor(modelItem => item.IsActive)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.HasCompleted)
+                        </td>
+                        <td>
+                                @Html.DisplayFor(modelItem => item.UpdatedBy)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.UpdatedDate)
+                            </td>*@
+                </tr>
+            }
+
+        </table>
+
+
+
+    </div>
+

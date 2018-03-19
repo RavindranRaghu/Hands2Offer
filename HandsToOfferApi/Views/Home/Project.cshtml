@@ -1,0 +1,196 @@
+﻿@model IEnumerable<HandsToOfferApi.Models.Project>
+
+@{
+    ViewBag.Title = "Project";
+}
+
+<link rel="stylesheet" type="text/css" href="~/Content/jquery.dataTables.min.css" />
+<script type="text/javascript" src="~/Scripts/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="~/Scripts/dataTables.bootstrap.min.js"></script>
+
+<style>
+    table.dataTable thead .sorting_asc {
+        background: url("../Content/img/sort_asc.png") no-repeat center right;
+    }
+
+    table.dataTable thead .sorting {
+        background: url("../Content/img/sort_both.png") no-repeat center right;
+    }
+    table.dataTable thead .sorting_desc {
+        background: url("../Content/img/sort_desc.png") no-repeat center right;
+    }
+</style>
+
+<div style="padding:10px;padding-top:80px;">
+    <span class="subtitle">Project </span>
+    <button type="button" class="btn btn-link newProject appSubHeading"
+            data-toggle="modal" data-target="#projectModal">
+        Add Project
+    </button>
+    <hr />
+
+    <table id="projectTable" class="table table-bordered appSubHeading tblList">
+        <thead>
+            <tr>
+                <th>Edit</th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ProjectName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ProjectDesc)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.UpdatedDate)
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+
+
+            @foreach (var item in Model)
+            {
+            <tr>
+                <td>
+                    <button type="button" class="btnEdit glyphicon glyphicon-edit openExistingProject"
+                            data-toggle="modal" data-id=@item.ProjectId data-projectname="@item.ProjectName" data-projectdesc="@item.ProjectDesc" data-lastupdated="@item.UpdatedDate" data-target="#projectModal"></button>
+                    <button type="button" class="btnEdit glyphicon glyphicon-trash deleteExistingProject"
+                            data-toggle="modal" data-id=@item.ProjectId data-projectname="@item.ProjectName" data-projectdesc="@item.ProjectDesc"  data-lastupdated="@item.UpdatedDate" data-target="#projectModal"></button>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProjectName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProjectDesc)
+                </td>
+                <td class="appBody">
+                    @*@Html.DisplayFor(modelItem => item.UpdatedDate)*@
+                    @{var updatedDate = string.Empty;
+                         if (item.UpdatedDate != null) {
+                            updatedDate = item.UpdatedDate.ToString("MM/dd/yyyy");
+                         }
+                    }
+                    @updatedDate
+                </td>
+    
+                </tr>
+            }
+
+        </tbody>
+    </table>
+</div>
+<div id="projectModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="appHeading">Project</h4>
+                <div><span style="color:dodgerblue" id="lastUpdated"></span></div>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="projectId" />
+                <input type="hidden" id="operation" />
+                <div class="row">
+                    <div class="col-sm-2">Name</div>
+                    <div class="col-sm-10"><input type="text" class="form-control" id="projectName" /></div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-2">Description</div>
+                    <div class="col-sm-10"><input type="text" class="form-control"  id="projectDesc" /></div>
+                </div>
+                @*<div class="row">
+                    <div class="col-sm-2">Active</div>
+                    <div class="col-sm-10">
+                        <select class="form-control" id="isActive">
+                            <option value="yes">Yes</option>
+                            <option value="no">No</option>
+                        </select>
+                    </div>
+                </div>*@
+            </div>
+            <div class="modal-footer">
+                <button id="saveProject" type="button" class="btn btn-default">Save</button>
+                <button id="closeProject" type="button" class="btn btn-default"  data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    $(function () {
+
+        $(document).ready(function () {
+            $('#projectTable').DataTable({
+                "pageLength": 50
+            });
+        });
+
+        //open Modal for existing project
+        $(document).on('click', '.openExistingProject', function () {
+            $('#saveProject').html('Update');
+            $('#projectId').val($(this).data('id'));
+            $('#projectName').val($(this).data('projectname'));
+            $('#projectDesc').val($(this).data('projectdesc'));
+            $('#lastUpdated').html('Last Updated: ' + $(this).data('lastupdated'));
+            $('#operation').val("u");
+        });
+
+        //open Modal for delete
+        $(document).on('click', '.deleteExistingProject', function () {
+            $('#saveProject').html('Delete');
+            $('#projectId').val($(this).data('id'));
+            $('#projectName').val($(this).data('projectname'));
+            $('#projectDesc').val($(this).data('projectdesc'));
+            $('#lastUpdated').html('Last Updated: ' + $(this).data('lastupdated'));
+            $('#operation').val("d");
+        });
+
+        //open Modal for new project
+        $(document).on('click', '.newProject', function () {
+            $('#saveProject').html('Add');
+            $('#projectId').val(0);
+            $('#lastUpdated').html('Adding New Project');
+            $('#operation').val("a");
+        });
+
+        // save project
+        $(document).on('click', '#saveProject', function () {
+            var projectId = $('#projectId').val();
+            var projectName = $('#projectName').val();
+            var projectDesc = $('#projectDesc').val();
+            var operation = $('#operation').val();
+            var isActive = $("#isActive option:selected").text() == "Yes" ? true : false;
+            var updateBy = 0;
+            var updatedDate = new Date;
+            var project = { ProjectId: projectId, ProjectName: projectName, ProjectDesc: projectDesc, IsActive: isActive, UpdatedBy: updateBy, UpdatedDate: updatedDate };
+            var finalProject = { project: project, operation: operation };
+            $.ajax({
+                type: "POST",
+                url: "/home/ProjectUpdate/",
+                data: JSON.stringify(finalProject),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    if (result == true) {
+                        $('#lastUpdated').html('Updated Successfully <span style="color:green" class="glyphicon glyphicon-ok-circle"> </span>');
+                    }
+                    else {
+                        $('#lastUpdated').html('Updated Failed <span style="color:red" class="glyphicon glyphicon-remove-circle"> </span>');
+                    }
+                },
+                error: function (errorMsg) {
+                    $('#lastUpdated').html('<span class="alert alert-warning">' + errorMsg.statusText + '</span> '); 
+                }
+
+            });
+        });
+
+        //Close Modal
+        $(document).on('click', '#closeProject', function () {
+            location.reload();
+        });
+
+    });
+
+</script>
