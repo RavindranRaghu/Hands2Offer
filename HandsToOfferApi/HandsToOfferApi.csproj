@@ -148,12 +148,16 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Common\H2OAuthentication.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Dto\UserProfile.cs" />
     <Compile Include="Dto\ProjectOperation.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Event.cs" />
+    <Compile Include="Models\EventUsers.cs" />
+    <Compile Include="Models\H2OUsers.cs" />
     <Compile Include="Models\Project.cs" />
     <Compile Include="Models\H2OContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -242,6 +246,8 @@
     <Content Include="Views\Home\CreateEvent.cshtml" />
     <Content Include="Views\Home\EventSuccess.cshtml" />
     <Content Include="Views\Home\Index - Copy.cshtml" />
+    <Content Include="Views\Home\Login.cshtml" />
+    <Content Include="Views\Home\Profiles.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -63,14 +63,33 @@ header {
     font-size: large;
 }
 
-.glyphicon-tag,.glyphicon-question-sign{
+.glyphicon-question-sign {
     color: crimson !important;
-    font-size: large;
+    font-size: x-large;
+}
+
+.glyphicon-chevron-right {
+    color: crimson !important;
+    font-size: x-large;
+    opacity: .8;
 }
 
 .btn-default{
     background-color: whitesmoke;
     border: none;
+}
+
+.btn-danger {
+    font-size: x-large;
+    min-width: 230px;
+    min-height: 50px;
+    background-color:crimson;
+    opacity:0.8;
+    margin-top:23px;
+}
+
+.panel {
+    min-height:550px;
 }
 
 #bodyhtml {
@@ -148,6 +167,7 @@ text-align:center;
 .subtitle{
     color: rgb(46, 44, 44);
     font-size: xx-large;
+    padding-bottom:10px;
 }
 
 .subtitlehelplink{
@@ -191,31 +211,38 @@ text-align:center;
     width: 30px;
 }
 
-.handsCalender {
-    height: 86px;
-    width: 110px;
-}
+
 .handsDay {
-    font-size: x-large;
+    font-size: large;    
 }
 .handsMonth {
-    font-size: small;
+    font-size: large;
 }
 .handsWeekday {
-    font-size: small;
+    font-size: medium;
 }
 
 .handsEventName{
-    font-size: x-large;
+    font-size: xx-large;
+}
+
+.padbottom {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.padMore {
+    padding-top: 40px;
+    padding-bottom: 40px;
 }
 
 .upcomingevent {
-    
     padding: 10px;
     box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.2), 0 2px 6px 0 rgba(0, 0, 0, 0.19);
 }
 .upcomingeventContainer{
     padding: 10px;
+    padding-top:20px;
 }
 
 @keyframes flickerAnimation {

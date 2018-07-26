@@ -1,0 +1,118 @@
+﻿@model HandsToOfferApi.Models.H2OUsers
+@{
+    ViewBag.Title = "Login";    
+}
+
+<style>
+    .form-control {
+        font-size: 18px;
+    }
+
+    form {
+        font-size: 18px;
+        color: crimson;
+    }
+</style>
+
+<div style="padding:20px;padding-top:80px;">
+    <span class="handsEventName"> @ViewBag.message</span>
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="handsEventName padMore"> Existing User</div>
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.EmailAddress, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.EmailAddress, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.EmailAddress, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-2"></div>
+                            <div class="col-md-10">
+                                <div class="checkbox">
+                                    @Html.CheckBox("EmailPreference", new { @checked = "checked" })
+                                    <span>This is a Personal Computer </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <input type="submit" name="submitButton" value="Login" class="btn btn-danger" />
+                            </div>
+                        </div>
+                    </div>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="handsEventName padMore"> New User</div>
+                    @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.EmailAddress, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.EmailAddress, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.EmailAddress, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.UserName, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.PhoneNumber, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.PhoneNumber, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-2"></div>
+                            <div class="col-md-10">
+                                <div class="checkbox">
+                                    @Html.CheckBox("EmailPreference", new { @checked = "checked" })
+                                    <span>This is a Personal Computer </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <input type="submit" name="submitButton" value="Sign Up" class="btn btn-danger" />
+                            </div>
+                        </div>
+                    </div>
+    }
+                </div>
+            </div>
+        </div>
+            </div>
+
+        </div>

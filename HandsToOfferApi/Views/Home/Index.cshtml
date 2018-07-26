@@ -1,4 +1,5 @@
-﻿@{
+﻿@model IEnumerable<HandsToOfferApi.Models.Event>
+@{
     ViewBag.Title = "Home Page";
 }
 <div id="bodyhtml">
@@ -19,76 +20,60 @@
                     <a href="#" class="volunteerLink" style="padding-left:10px;">New Volunteer Registration</a>
                 </div>
             </div>
-            <div class="row upcomingeventContainer">
-                <div class="col-sm-12">
-                    <div class="row upcomingevent">
-                        <div class="col-sm-1" style="padding-top:40px;">
-                            <span class="glyphicon glyphicon glyphicon-tag" />
-                        </div>
-                        <div class="col-sm-2">
-                            <div class="row handsCalender">
-                                <div class="col-sm-12 handsDay">23</div>
-                                <div class="col-sm-12 handsMonth">Sep 2018</div>
-                                <div class="col-sm-12 handsWeekday">Saturday</div>
-                            </div>
-                        </div>
-                        <div class="col-sm-7">
-                            <div class="row">
-                                <div class="col-sm-12 handsEventName">
-                                    <a href="#">Soup Service at Dilworth Charlotte</a>
+            @foreach (var item in Model)
+            {
+                if (!item.HasCompleted)
+                {
+                    <div class="row upcomingeventContainer">
+                        <div class="col-sm-12">
+                            <div class="row upcomingevent">
+                                <div class="col-sm-1" style="padding-top:23px;">
+                                    <span class="glyphicon glyphicon-chevron-right" />
                                 </div>
-                                <div class="col-sm-12 handsWeekday">Address: 1200 East Blvd, Charlotte, NC 28203 (704) 334-3771</div>
-                                <div class="col-sm-12 handsWeekday">7:00 AM to 8:00 AM</div>
+                                <div class="col-sm-5">
+                                    <div class="row">
+                                        <div class="col-sm-12 handsEventName">
+                                            @item.ProjectName
+                                        </div>
+                                        <div class="col-sm-12 handsWeekday">
+                                            <a href="https://www.google.com/maps/search/?api=1&query=@item.Address" target="_blank"> @item.Address</a>
+                                        </div>
+                                        <div class="col-sm-12 handsWeekday">
+                                            <a href="tel:@item.Phone"> @item.Phone</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="row handsCalender">
+                                        <div class="col-sm-12 handsDay padbottom">
+                                            <span class="glyphicon glyphicon-circle-arrow-right" style="color:crimson"></span>
+                                            @item.StartDate.ToString("dd") @item.StartDate.ToString("MMM") @item.StartDate.ToString("yy")
+                                            <span class="handsMonth">@item.StartDate.ToShortTimeString() </span>
+                                            <span class="handsWeekday">@item.StartDate.ToString("ddd") </span>
+                                        </div>
+                                        <div class="col-sm-12 handsDay">
+                                            <span class="glyphicon glyphicon-circle-arrow-left" style="color:crimson"></span>
+                                            @item.EndDate.ToString("dd") @item.EndDate.ToString("MMM") @item.EndDate.ToString("yy")
+                                            <span class="handsMonth">@item.EndDate.ToShortTimeString() </span>
+                                            <span class="handsWeekday">@item.EndDate.ToString("ddd") </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-1" style="padding-top:20px;text-align:center">
+                                    <a href="#" data-id="@item.EventId" data-name="@item.ProjectName" data-toggle="modal" class="joinUsModal" data-target="#exampleModal">
+                                        <span class="glyphicon glyphicon-hand-up"></span> Join
+                                    </a>
+                                </div>
+                                <div class="col-sm-1" style="padding-top:20px;text-align:center">
+                                    <a href="#">
+                                        <span class="glyphicon glyphicon-share" />Share
+                                    </a>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-sm-1" style="padding-top:20px;text-align:center">
-                            <a href="#">
-                                <span class="glyphicon glyphicon-hand-up" />Join
-                            </a>
-                        </div>
-                        <div class="col-sm-1" style="padding-top:20px;text-align:center">
-                            <a href="#">
-                                <span class="glyphicon glyphicon-share" />Share
-                            </a>
                         </div>
                     </div>
-                </div>
-            </div>
-            <div class="row upcomingeventContainer">
-                <div class="col-sm-12">
-                    <div class="row upcomingevent">
-                        <div class="col-sm-1" style="padding-top:40px;">
-                            <span class="glyphicon glyphicon glyphicon-tag" />
-                        </div>
-                        <div class="col-sm-2">
-                            <div class="row handsCalender">
-                                <div class="col-sm-12 handsDay">28</div>
-                                <div class="col-sm-12 handsMonth">Sep 2018</div>
-                                <div class="col-sm-12 handsWeekday">Thursday</div>
-                            </div>
-                        </div>
-                        <div class="col-sm-7">
-                            <div class="row">
-                                <div class="col-sm-12 handsEventName">
-                                    <a href="#">Juice Service at DownTown Charlotte</a>
-                                </div>
-                                <div class="col-sm-12 handsWeekday">Address: 1200 East Blvd, Charlotte, NC 28203 (704) 334-3771</div>
-                                <div class="col-sm-12 handsWeekday">7:00 AM to 8:00 AM</div>
-                            </div>
-                        </div>
-                        <div class="col-sm-1" style="padding-top:20px;text-align:center">
-                            <a href="#">
-                                <span class="glyphicon glyphicon-hand-up" />Join
-                            </a>
-                        </div>
-                        <div class="col-sm-1" style="padding-top:20px;text-align:center">
-                            <a href="#">
-                                <span class="glyphicon glyphicon-share" />Share
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                }
+            }
         </div>
         <div class="col-sm-2 upcomingeventAnimate" id="generaleventContainer">
             <div class="row" style="padding-top:20px;" id="recenteventheader">
@@ -110,6 +95,7 @@
             </div>
         </div>
     </div>
+
     <div class="row event" id="recentEventContainer">
         <div class="col-sm-12">
             <div class="row recentEventRow">
@@ -119,22 +105,20 @@
                     <a href="#" class="recenteventLink" style="padding-left:10px;">See All Recent Events</a>
                 </div>
             </div>
-            <div class="row recentEventRow">
-                <div class="col-sm-12 recentEventText">
-                    Soup Kitchen organized by 12 Members at Dilworth Charlotte NC
-                </div>
-                <div class="col-sm-12 recentEventComment">
-                    Mar 02 2018  | 1499 Winds Charlotte NC 28269
-                </div>
-            </div>
-            <div class="row recentEventRow">
-                <div class="col-sm-12 recentEventText">
-                    Tasty Juice delivered by 14 Members at Charlotte Downtown
-                </div>
-                <div class="col-sm-12 recentEventComment">
-                    Mar 02 2018 | 1499 Winds Charlotte NC 28269
-                </div>
-            </div>
+            @foreach (var item in Model)
+            {
+                if (item.HasCompleted)
+                {
+                    <div class="row recentEventRow">
+                        <div class="col-sm-12 recentEventText">
+                            @item.ProjectDesc
+                        </div>
+                        <div class="col-sm-12 recentEventComment">
+                            @item.EndDate.ToString("dd") @item.EndDate.ToString("MMM") @item.EndDate.ToString("yy")  | @item.Address
+                        </div>
+                    </div>
+                }
+            }
         </div>
     </div>
     <div id="projectContainer">
@@ -169,6 +153,29 @@
     </div>
 
 </div>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Join Us for </h5>
+            </div>
+            <div class="modal-body">
+                <div><input type="radio" name="joining" id="yes" /> <label for="yes">Definetly</label></div>
+                <div><input type="radio" name="joining" id="notsure" /> <label for="notsure">May Be</label></div>
+                <div><input type="radio" name="joining" id="no" /> <label for="no">Got To Miss</label></div>
+
+                <input id="JoinEventId" type="hidden" />
+            </div>
+            <div class="modal-footer">
+                <span style="float:left" id="successMessage"></span>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" id="saveJoin" class="btn btn-primary">Confirm</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
     $(function () {
         $("#navbarfaq").hide();
@@ -177,6 +184,39 @@
             $("#generaleventContainer").hide();
             $("#navbarfaq").show();
         }, 8000);
+
+        $(document).on('click', '.joinUsModal', function () {
+            $('#exampleModalLabel').html('Join us for ' + $(this).data('name'));
+            $('#JoinEventId').val($(this).data('id'));
+        });
+
+        $(document).on('click', '#saveJoin', function () {
+            var eventId = $('#JoinEventId').val();
+            var joining = $("input[name='joining']:checked").val()
+            var updateBy = 0;
+            var updatedDate = new Date;
+            var events = { EventId: eventId, UserId: updateBy, Joining: joining, Email:"",Name: "", Phone:"", UpdatedDate: updatedDate };
+            //var finalProject = { project: project, operation: operation };
+            $.ajax({
+                type: "POST",
+                url: "/home/JoinUs/",
+                data: JSON.stringify(events),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    if (result == true) {
+                        $('#successMessage').html('Updated Successfully <span style="color:green" class="glyphicon glyphicon-ok-circle"> </span>');
+                    }
+                    else {
+                        $('#successMessage').html('Updated Failed <span style="color:red" class="glyphicon glyphicon-remove-circle"> </span>');
+                    }
+                },
+                error: function (errorMsg) {
+                    $('#successMessage').html('<span class="alert alert-warning">' + errorMsg.statusText + '</span> ');
+                }
+
+            });
+        });
     });
 </script>
 <script type="text/javascript" src="js/onclick.js"></script>

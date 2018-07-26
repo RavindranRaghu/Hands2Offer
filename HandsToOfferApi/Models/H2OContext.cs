@@ -15,5 +15,8 @@ namespace HandsToOfferApi.Models
 
         public DbSet<Project> Project { get; set; }
         public DbSet<Event> Event { get; set; }
+        public DbSet<H2OUsers> H2OUsers { get; set; }
+        public DbSet<EventUsers> EventUsers { get; set; }
+        
     }
 }

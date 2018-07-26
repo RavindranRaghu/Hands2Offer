@@ -54,18 +54,36 @@
                         <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search" /></button>
                     </form>
                     <ul class="nav navbar-nav navbar-right">
-                        <li><a href="#"><span id="navbarfaq" class="glyphicon glyphicon-question-sign"></span></a></li>
-                        <li><a href="#">Contact Us</a></li>
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Login<span class="caret"></span></a>
+                            <a href="#"class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span id="navbarfaq" class="glyphicon glyphicon-question-sign"></span></a>
                             <ul class="dropdown-menu">
-                                <li><a href="#">Action</a></li>
-                                <li><a href="#">Another action</a></li>
-                                <li><a href="#">Something else here</a></li>
-                                <li role="separator" class="divider"></li>
-                                <li><a href="#">Separated link</a></li>
+                                <li><a href="#">Get Notification on all upcoming events</a></li>
+                                <li><a href="#">Tell my friends about Hands2Offer</a></li>
+                                <li><a href="#">Create Your Profile in 3 simple steps</a></li>
+                                @*<li role="separator" class="divider"></li>
+                                <li><a href="#">Separated link</a></li>*@
                             </ul>
                         </li>
+                        <li class="dropdown">
+                            <a href="#"class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-phone-alt"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#">Phone: 980 999 2322</a></li>
+                                <li><a href="#">Email: Hands2Offer@gmail.com</a></li>
+                            </ul>
+                        </li>
+                        @{
+                            if (Session["UserName"] != null)
+                            {
+                                string user = Session["UserName"].ToString();
+                                string email = Session["EmailAddress"].ToString();
+                                <li><a href="/Home/Profiles?email=@email">@user<span class="glyphicon glyphicon-user"></span> </a></li>
+                            }
+                            else
+                            {
+                                <li> <a href="/Home/Login">Login</a></li>
+                            }                        
+                        } 
+
                     </ul>
                 </div><!-- /.navbar-collapse -->
             </div><!-- /.container-fluid -->
