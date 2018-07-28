@@ -15,19 +15,37 @@ namespace HandsToOfferApi.Controllers
         private H2OAuthentication auth = new H2OAuthentication();
         public ActionResult Index()
         {
-            List<Event> events = db.Event.OrderByDescending(x => x.UpdatedDate).ToList();
+            //List<Event> events = db.Event.OrderByDescending(x => x.UpdatedDate).ToList();
+            List<EventUserMapping> eventList =  (from events in db.Event
+                                                 join map in db.EventUsers on events.EventId equals map.EventId into mapAll
+                                                 from map in mapAll.DefaultIfEmpty()
+                                                 select new EventUserMapping {
+                                                     EventId = events.EventId,
+                                                     ProjectName = events.ProjectName,
+                                                     ProjectDesc = events.ProjectDesc,
+                                                     StartDate = events.StartDate,
+                                                     EndDate = events.EndDate,
+                                                     Address = events.Address,
+                                                     Email = events.Email,
+                                                     Phone = events.Phone,
+                                                     HasCompleted = events.HasCompleted,
+                                                     IsActive = events.IsActive,
+                                                     Joining = map.Joining == null ? "Havenotdecided" : map.Joining
+                                                 }).ToList();
+
 
             HttpCookie myCookie = Request.Cookies["myUserCookie"];
             if (myCookie != null)
             {
                 if (!string.IsNullOrEmpty(myCookie.Values["UserName"]))
                 {
+                    string userid = (myCookie.Values["UserId"] != null) ? myCookie.Values["UserId"].ToString() : "";
                     string name = myCookie.Values["UserName"].ToString();
                     string email = myCookie.Values["EmailAddress"].ToString();
-                    SetUserSession(name, email);
+                    SetUserSession(userid, name, email);
                 }
             }
-            return View(events);
+            return View(eventList);
         }
 
         public ActionResult Login()
@@ -185,7 +203,7 @@ namespace HandsToOfferApi.Controllers
                 H2OUsers existinguser = existing.FirstOrDefault();
                 if (auth.CheckUserAuth(existinguser.EmailAddress, model.Password))
                 {
-                    SetPersistence(existinguser.UserName, existinguser.EmailAddress, model.EmailPreference.Value);
+                    SetPersistence(existinguser.Id.ToString(), existinguser.UserName, existinguser.EmailAddress, model.EmailPreference.Value);
                     return RedirectToAction("index");
                 }
                 else
@@ -205,15 +223,29 @@ namespace HandsToOfferApi.Controllers
                 model.Role = 0;
                 db.H2OUsers.Add(model);
                 db.SaveChanges();
-                SetPersistence(model.UserName, model.EmailAddress, model.EmailPreference.Value);
+                SetPersistence(model.Id.ToString(), model.UserName, model.EmailAddress, model.EmailPreference.Value);
             }            
             return RedirectToAction("index");
         }
 
-        public ActionResult Profiles(string email)
+        public ActionResult Profiles(string userid)
         {
-            H2OUsers user = db.H2OUsers.Where(x => x.EmailAddress == email).FirstOrDefault();
-            return View(user);
+            int UserId = 0;
+            bool IsvalidId = Int32.TryParse(userid, out UserId);
+
+            HttpCookie myCookie = Request.Cookies["myUserCookie"];
+            bool isCookieExist = (string.IsNullOrEmpty(myCookie.Values["UserName"])) ? false : true;
+            if (IsvalidId)
+            {
+                H2OUsers user = db.H2OUsers.Where(x => x.Id == UserId).FirstOrDefault();
+                SetPersistence(user.Id.ToString(), user.UserName, user.EmailAddress, isCookieExist);
+                ViewBag.Message = "User Profile";
+                return View(user);
+            }
+            else {
+                return View();
+            }
+
         }
 
         [HttpPost]
@@ -221,53 +253,83 @@ namespace HandsToOfferApi.Controllers
         {
             var model = new H2OUsers();
             TryUpdateModel(model, collection);
-            H2OUsers user = db.H2OUsers.Where(x => x.EmailAddress == model.EmailAddress).FirstOrDefault();
+            H2OUsers user = db.H2OUsers.Where(x => x.Id == model.Id).FirstOrDefault();
+            user.EmailAddress = model.EmailAddress;
             user.UserName = model.UserName;
             user.PhoneNumber = model.PhoneNumber;
             user.EmailPreference = model.EmailPreference;
             user.DateUpdated = DateTime.UtcNow;
             db.SaveChanges();
+            HttpCookie myCookie = Request.Cookies["myUserCookie"];
+            bool isCookieExist = (string.IsNullOrEmpty(myCookie.Values["UserName"])) ? false : true;
+            SetPersistence(user.Id.ToString(), user.UserName, user.EmailAddress, isCookieExist);
+            ViewBag.Message = "User Profile saved Successfully";
             return View(user);
         }
 
-        public ActionResult JoinUs(EventUsers events)
+        public ActionResult JoinUs(EventUsers eventUser)
         {
             bool added = false;
-            db.EventUsers.Attach(events);
-            db.EventUsers.Add(events);
-            return Json(added, JsonRequestBehavior.AllowGet);
+            try
+            {
+                var eventUserExist = db.EventUsers.Where(x => x.UserId == eventUser.UserId && x.EventId == eventUser.EventId);
+                if (eventUserExist.Any())
+                {
+                    EventUsers newEventUser = eventUserExist.First();
+                    newEventUser.EmailAddress = eventUser.EmailAddress;
+                    newEventUser.PhoneNumber = eventUser.PhoneNumber;
+                    newEventUser.Joining = eventUser.Joining;
+                    newEventUser.UpdatedDate = DateTime.UtcNow;
+                }
+                else
+                {
+                    eventUser.UpdatedDate = DateTime.UtcNow;
+                    db.EventUsers.Attach(eventUser);
+                    db.EventUsers.Add(eventUser);
+                }
+                db.SaveChanges();
+                added = true;
+                return Json(added, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                return Json(added, JsonRequestBehavior.AllowGet);
+            }
         }
 
-        private void SetPersistence(string name, string email, bool privateComputer)
+        private void SetPersistence(string userid, string name, string email, bool privateComputer)
         {
             if (privateComputer)
             {
-                SetUserCookie(name, email);
+                SetUserCookie(userid, name, email);
             }
             else
             {
-                SetUserSession(name, email);
+                SetUserSession(userid, name, email);
             }
         }
 
-        private void SetUserSession(string name, string email)
+        private void SetUserSession(string userid, string name, string email)
         {
+            Session["UserId"] = userid.ToString();
             Session["UserName"] = name;
             Session["EmailAddress"] = email;
         }
 
         private void KillUserSession()
         {
+            Session["UserId"] = null;
             Session["UserName"] = null;
             Session["EmailAddress"] = null;
         }
 
-        private void SetUserCookie(string name, string email)
+        private void SetUserCookie(string userid, string name, string email)
         {
             //create a cookie
             HttpCookie myCookie = new HttpCookie("myUserCookie");
 
             //Add key-values in the cookie
+            myCookie.Values.Add("UserId", userid.ToString());
             myCookie.Values.Add("UserName", name);
             myCookie.Values.Add("EmailAddress", email);
 

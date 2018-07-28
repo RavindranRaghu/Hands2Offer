@@ -74,9 +74,10 @@
                         @{
                             if (Session["UserName"] != null)
                             {
+                                string userid = Session["UserId"].ToString();
                                 string user = Session["UserName"].ToString();
                                 string email = Session["EmailAddress"].ToString();
-                                <li><a href="/Home/Profiles?email=@email">@user<span class="glyphicon glyphicon-user"></span> </a></li>
+                                <li><a href="/Home/Profiles?userid=@userid">@user<span class="glyphicon glyphicon-user"></span> </a></li>
                             }
                             else
                             {

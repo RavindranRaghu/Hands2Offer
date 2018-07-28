@@ -23,9 +23,6 @@ namespace HandsToOfferApi.Models
         [DisplayName("Email Address")]
         public string EmailAddress { get; set; }
 
-        [DisplayName("Password")]
-        public string Password { get; set; }
-
         [DisplayName("User Name")]
         public string UserName { get; set; }
 

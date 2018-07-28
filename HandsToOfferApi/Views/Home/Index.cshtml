@@ -1,7 +1,16 @@
-﻿@model IEnumerable<HandsToOfferApi.Models.Event>
+﻿@model IEnumerable<HandsToOfferApi.Dto.EventUserMapping>
 @{
     ViewBag.Title = "Home Page";
+    int userid = 0;
+    if (Session["UserName"] != null)
+    {
+        string useridString = Session["UserId"].ToString();
+        bool isUserValid = Int32.TryParse(useridString, out userid);
+    }
 }
+
+<link  href="~/Content/Radio.css" rel="stylesheet"/>
+
 <div id="bodyhtml">
     <div style="opacity:0.95;">
         <div id="mission" class="row" style="box-shadow: 0 3px 8px 0 rgba(0, 0, 0, 0.19)">
@@ -14,10 +23,7 @@
         <div class="col-sm-10">
             <div class="row">
                 <div class="col-sm-12">
-                    <span id="upcomingEventHeader" class="subtitle">Upcoming Events</span>
-                    <span class="glyphicon glyphicon-calendar"> </span>
-                    <a href="#" class="upcomingeventLink" style="padding-left:10px;">See All Upcoming Events</a>
-                    <a href="#" class="volunteerLink" style="padding-left:10px;">New Volunteer Registration</a>
+                    <span id="upcomingEventHeader" class="subtitle">Upcoming Events: </span>
                 </div>
             </div>
             @foreach (var item in Model)
@@ -46,13 +52,13 @@
                                 <div class="col-sm-3">
                                     <div class="row handsCalender">
                                         <div class="col-sm-12 handsDay padbottom">
-                                            <span class="glyphicon glyphicon-circle-arrow-right" style="color:crimson"></span>
+                                            <span class="glyphicon glyphicon-calendar" style="color:crimson"></span>
                                             @item.StartDate.ToString("dd") @item.StartDate.ToString("MMM") @item.StartDate.ToString("yy")
                                             <span class="handsMonth">@item.StartDate.ToShortTimeString() </span>
                                             <span class="handsWeekday">@item.StartDate.ToString("ddd") </span>
                                         </div>
                                         <div class="col-sm-12 handsDay">
-                                            <span class="glyphicon glyphicon-circle-arrow-left" style="color:crimson"></span>
+                                            <span class="glyphicon glyphicon-minus" style="color:crimson"></span>
                                             @item.EndDate.ToString("dd") @item.EndDate.ToString("MMM") @item.EndDate.ToString("yy")
                                             <span class="handsMonth">@item.EndDate.ToShortTimeString() </span>
                                             <span class="handsWeekday">@item.EndDate.ToString("ddd") </span>
@@ -60,13 +66,24 @@
                                     </div>
                                 </div>
                                 <div class="col-sm-1" style="padding-top:20px;text-align:center">
-                                    <a href="#" data-id="@item.EventId" data-name="@item.ProjectName" data-toggle="modal" class="joinUsModal" data-target="#exampleModal">
-                                        <span class="glyphicon glyphicon-hand-up"></span> Join
-                                    </a>
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <a href="#" data-id="@item.EventId" data-name="@item.ProjectName" data-user="@userid" data-joining=" @item.Joining" data-toggle="modal" class="joinUsModal" data-target="#exampleModal">
+                                                <span>Join</span> 
+                                            </a>
+                                        </div>
+                                        <div class="col-sm-12">
+                                                                                    @{
+                                            if (item.Joining == "Definetly") {
+                                                <span class="glyphicon glyphicon-thumbs-up" style="color:green;font-size:20px;"></span> 
+                                            }
+                                        } 
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="col-sm-1" style="padding-top:20px;text-align:center">
                                     <a href="#">
-                                        <span class="glyphicon glyphicon-share" />Share
+                                        Share
                                     </a>
                                 </div>
                             </div>
@@ -158,19 +175,29 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Join Us for </h5>
+                <h5 class="handsEventName" id="exampleModalLabel">Join Us for </h5>
             </div>
-            <div class="modal-body">
-                <div><input type="radio" name="joining" id="yes" /> <label for="yes">Definetly</label></div>
-                <div><input type="radio" name="joining" id="notsure" /> <label for="notsure">May Be</label></div>
-                <div><input type="radio" name="joining" id="no" /> <label for="no">Got To Miss</label></div>
-
-                <input id="JoinEventId" type="hidden" />
+            <div class="modal-body" style="background-color: #222222;">
+                <div class="radioGroup">
+                    <ul>
+                        <li>
+                            <div><input type="radio" name="joining" value="Definetly" id="yes" checked="checked" /> <label for="yes">Definetly</label></div>
+                        </li>
+                        <li>
+                            <div><input type="radio" name="joining" value="MayBe" id="notsure" /> <label for="notsure">May Be</label></div>
+                        </li>
+                        <li>
+                            <div><input type="radio" name="joining" value="GotToMiss" id="no" /> <label for="no">Got To Miss</label></div>
+                        </li>
+                    </ul>                                                            
+                    <input id="JoinEventId" type="hidden" />
+                    <input id="JoinUserId" type="hidden" />
+                </div>
             </div>
             <div class="modal-footer">
                 <span style="float:left" id="successMessage"></span>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" id="saveJoin" class="btn btn-primary">Confirm</button>
+                <button type="button" class="btn btn-secondary handsDay" data-dismiss="modal">Close</button>
+                <button type="button" id="saveJoin" class="btn btn-primary handsDay">Confirm</button>
             </div>
         </div>
     </div>
@@ -186,16 +213,22 @@
         }, 8000);
 
         $(document).on('click', '.joinUsModal', function () {
-            $('#exampleModalLabel').html('Join us for ' + $(this).data('name'));
+            $('#exampleModalLabel').html('Join us: ' + $(this).data('name'));
             $('#JoinEventId').val($(this).data('id'));
+            $('#JoinUserId').val($(this).data('user'));
+            $('#successMessage').html("");
+            console.log($(this).data('joining'));
+            $(".radioGroup input[value=" + $(this).data('joining') + "]").prop("checked", true)
+            $('#saveJoin').prop('disabled', false);
         });
 
         $(document).on('click', '#saveJoin', function () {
             var eventId = $('#JoinEventId').val();
             var joining = $("input[name='joining']:checked").val()
-            var updateBy = 0;
+            console.log(joining);
+            var userId = $('#JoinUserId').val();
             var updatedDate = new Date;
-            var events = { EventId: eventId, UserId: updateBy, Joining: joining, Email:"",Name: "", Phone:"", UpdatedDate: updatedDate };
+            var events = { EventId: eventId, UserId: userId, Joining: joining, Email:"",Name: "", Phone:"", UpdatedDate: updatedDate };
             //var finalProject = { project: project, operation: operation };
             $.ajax({
                 type: "POST",
@@ -206,6 +239,7 @@
                 success: function (result) {
                     if (result == true) {
                         $('#successMessage').html('Updated Successfully <span style="color:green" class="glyphicon glyphicon-ok-circle"> </span>');
+                        $('#saveJoin').prop('disabled', true);
                     }
                     else {
                         $('#successMessage').html('Updated Failed <span style="color:red" class="glyphicon glyphicon-remove-circle"> </span>');
