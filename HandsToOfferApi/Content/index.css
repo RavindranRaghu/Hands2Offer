@@ -107,7 +107,7 @@ td {
 	margin: 0 auto;
 }
 .ser-bottom-grd:hover {
-    border: 5px double 234b8c;
+    border: 5px double #234b8c;
 }
 .ser-bottom-grd span {
     font-size: 2em;

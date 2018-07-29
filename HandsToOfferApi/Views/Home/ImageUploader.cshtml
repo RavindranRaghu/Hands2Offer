@@ -1,0 +1,144 @@
+﻿
+@{
+    ViewBag.Title = "ImageUploader";
+    int recentEventId = ViewBag.EventId;
+}
+
+<div style="padding:10px;padding-top:80px;">
+    @model IEnumerable<HandsToOfferApi.Models.ImageUpload>
+
+    @{
+        ViewBag.Title = "Index";
+    }
+
+    <h2>ImageUploader</h2>
+
+    <p>
+        <a href="#" data-id="@recentEventId" data-toggle="modal" class="joinUsModal" data-target="#exampleModal">
+            <span>Add</span>
+        </a>
+    </p>
+    <table>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ImageId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ImageLocation)
+            </th>
+            <th>
+                Image
+            </th>
+            <th>
+                Edit
+            </th>
+        </tr>
+        @if (Model != null)
+        {
+            foreach (var item in Model)
+            {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ImageId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ImageLocation)
+                </td>
+                <td>
+                    <img src="~/Content/recent/@item.ImageLocation" />
+                </td>
+                <td>
+                    @Html.ActionLink("Delete", "ImageDelete", new { imageId = item.ImageId })
+                </td>
+            </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td>
+                        0
+                    </td>
+                    <td>
+                        No Images Added
+                    </td>
+                </tr>
+            }
+
+
+    </table>
+</div>
+
+
+
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="handsEventName" id="exampleModalLabel">Join Us for </h5>
+            </div>
+            <div class="modal-body">
+
+                @using (Html.BeginForm("ImageUploaderPost", "Home", null, FormMethod.Post,
+                  new { enctype = "multipart/form-data" }))
+                    {
+                            @Html.AntiForgeryToken()
+                            @Html.ValidationSummary(true)
+                            <div>
+                                <input id="ImageLocation" title="Upload a product image"
+                                       type="file" name="file" />
+                            </div>
+                            <input type="hidden" id="RecentEventId" name="RecentEventId" />
+                            <p><input type="submit" value="Create" /></p>
+                    }
+            </div>
+            <div class="modal-footer">
+                <span style="float:left" id="successMessage"></span>
+                <button type="button" class="btn btn-secondary handsDay" data-dismiss="modal">Close</button>
+                <button type="button" id="saveJoin" class="btn btn-primary handsDay">Confirm</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $(function () {
+
+        $(document).on('click', '.joinUsModal', function () {
+            $('#exampleModalLabel').html('Join us: ' + $(this).data('name'));
+            $('#RecentEventId').val($(this).data('id'));
+            $('#successMessage').html("");
+            $('#saveJoin').prop('disabled', false);
+        });
+
+        $(document).on('click', '#saveJoin', function () {
+            var eventId = $('#RecentEventId').val();
+            var imagelocation = $("#ImageLocation").val();
+            console.log(eventId);
+            console.log(imagelocation);
+            var imageupload = { EventId: eventId, ImageLocation: imagelocation};
+            $.ajax({
+                type: "POST",
+                url: "/home/ImageUploaderPost/",
+                data: JSON.stringify(imageupload),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    if (result == true) {
+                        $('#successMessage').html('Updated Successfully <span style="color:green" class="glyphicon glyphicon-ok-circle"> </span>');
+                        $('#saveJoin').prop('disabled', true);
+                    }
+                    else {
+                        $('#successMessage').html('Updated Failed <span style="color:red" class="glyphicon glyphicon-remove-circle"> </span>');
+                    }
+                },
+                error: function (errorMsg) {
+                    $('#successMessage').html('<span class="alert alert-warning">' + errorMsg.statusText + '</span> ');
+                }
+
+            });
+        });
+    });
+</script>

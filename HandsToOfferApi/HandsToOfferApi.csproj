@@ -158,6 +158,7 @@
     <Compile Include="Models\Event.cs" />
     <Compile Include="Models\EventUsers.cs" />
     <Compile Include="Models\H2OUsers.cs" />
+    <Compile Include="Models\ImageUpload.cs" />
     <Compile Include="Models\Project.cs" />
     <Compile Include="Models\H2OContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -249,9 +250,11 @@
     <Content Include="Views\Home\Index - Copy.cshtml" />
     <Content Include="Views\Home\Login.cshtml" />
     <Content Include="Views\Home\Profiles.cshtml" />
+    <Content Include="Views\Home\ImageUploader.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\recent\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

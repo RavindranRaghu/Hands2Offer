@@ -38,6 +38,8 @@ namespace HandsToOfferApi.Dto
         public bool HasCompleted { get; set; }
 
         public string Joining { get; set; }
+
+        public string ImageLocation { get; set; }
     }
 
 

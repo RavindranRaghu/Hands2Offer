@@ -68,9 +68,18 @@
                                 <div class="col-sm-1" style="padding-top:20px;text-align:center">
                                     <div class="row">
                                         <div class="col-sm-12">
-                                            <a href="#" data-id="@item.EventId" data-name="@item.ProjectName" data-user="@userid" data-joining=" @item.Joining" data-toggle="modal" class="joinUsModal" data-target="#exampleModal">
-                                                <span>Join</span> 
-                                            </a>
+                                            @{
+                                                if (Session["UserName"] != null)
+                                                {
+                                                <a href="#" data-id="@item.EventId" data-name="@item.ProjectName" data-user="@userid" data-joining=" @item.Joining" data-toggle="modal" class="joinUsModal" data-target="#exampleModal">
+                                                    <span>Join</span>
+                                                </a>
+                                                }
+                                                else
+                                                {
+                                                   <a href="/Home/Login">Login</a>
+                                                }                        
+                                            }                                             
                                         </div>
                                         <div class="col-sm-12">
                                                                                     @{
@@ -126,7 +135,21 @@
             {
                 if (item.HasCompleted)
                 {
-                    <div class="row recentEventRow">
+            <div class="row recentEventRow">
+                <div class="col-sm-2">
+                    @{
+                        if (!String.IsNullOrEmpty(item.ImageLocation))
+                        {
+                            <img src="~/Content/recent/@item.ImageLocation" style="max-height:80px;" />
+                        }
+                        else
+                        {
+                            <img src="~/Content/recent/Image-1.jpg" style="max-height:80px;" />
+                        }
+                    }
+                </div>
+                <div class="col-sm-8">
+                    <div class="row">
                         <div class="col-sm-12 recentEventText">
                             @item.ProjectDesc
                         </div>
@@ -134,6 +157,10 @@
                             @item.EndDate.ToString("dd") @item.EndDate.ToString("MMM") @item.EndDate.ToString("yy")  | @item.Address
                         </div>
                     </div>
+                    <hr />
+                </div>
+                <div class="col-sm-2"></div>
+            </div>
                 }
             }
         </div>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -15,36 +16,46 @@ namespace HandsToOfferApi.Controllers
         private H2OAuthentication auth = new H2OAuthentication();
         public ActionResult Index()
         {
-            //List<Event> events = db.Event.OrderByDescending(x => x.UpdatedDate).ToList();
-            List<EventUserMapping> eventList =  (from events in db.Event
-                                                 join map in db.EventUsers on events.EventId equals map.EventId into mapAll
-                                                 from map in mapAll.DefaultIfEmpty()
-                                                 select new EventUserMapping {
-                                                     EventId = events.EventId,
-                                                     ProjectName = events.ProjectName,
-                                                     ProjectDesc = events.ProjectDesc,
-                                                     StartDate = events.StartDate,
-                                                     EndDate = events.EndDate,
-                                                     Address = events.Address,
-                                                     Email = events.Email,
-                                                     Phone = events.Phone,
-                                                     HasCompleted = events.HasCompleted,
-                                                     IsActive = events.IsActive,
-                                                     Joining = map.Joining == null ? "Havenotdecided" : map.Joining
-                                                 }).ToList();
-
-
+            int userIdNumber = 0;
+            string userid = string.Empty;
+            string name = string.Empty;
+            string email = string.Empty;
             HttpCookie myCookie = Request.Cookies["myUserCookie"];
             if (myCookie != null)
             {
                 if (!string.IsNullOrEmpty(myCookie.Values["UserName"]))
                 {
-                    string userid = (myCookie.Values["UserId"] != null) ? myCookie.Values["UserId"].ToString() : "";
-                    string name = myCookie.Values["UserName"].ToString();
-                    string email = myCookie.Values["EmailAddress"].ToString();
+                    userid = (myCookie.Values["UserId"] != null) ? myCookie.Values["UserId"].ToString() : "";
+                    name = myCookie.Values["UserName"].ToString();
+                    email = myCookie.Values["EmailAddress"].ToString();
                     SetUserSession(userid, name, email);
                 }
             }
+
+            bool isUseridValid = Int32.TryParse(userid, out userIdNumber);
+            if (!isUseridValid)
+                userIdNumber = 0;
+
+            List<EventUserMapping> eventList = (from events in db.Event
+                                                join map in db.EventUsers on
+                                                new { Key1 = events.EventId, Key2 = userIdNumber } equals new { Key1 = map.EventId, Key2 = map.UserId }
+                                                into mapAll
+                                                from map in mapAll.DefaultIfEmpty()
+                                                select new EventUserMapping {
+                                                    EventId = events.EventId,
+                                                    ProjectName = events.ProjectName,
+                                                    ProjectDesc = events.ProjectDesc,
+                                                    StartDate = events.StartDate,
+                                                    EndDate = events.EndDate,
+                                                    Address = events.Address,
+                                                    Email = events.Email,
+                                                    Phone = events.Phone,
+                                                    HasCompleted = events.HasCompleted,
+                                                    IsActive = events.IsActive,
+                                                    Joining = map.Joining == null ? "Havenotdecided" : map.Joining,
+                                                    ImageLocation = db.ImageUpload.Where(x => x.EventId == events.EventId).Select(y=>y.ImageLocation).FirstOrDefault()
+                                                 }).ToList();
+
             return View(eventList);
         }
 
@@ -295,6 +306,41 @@ namespace HandsToOfferApi.Controllers
             {
                 return Json(added, JsonRequestBehavior.AllowGet);
             }
+        }
+
+        public ActionResult ImageUploader(int? eventId) {
+            List<ImageUpload> imageList = db.ImageUpload.Where(x => x.EventId == eventId).ToList();
+            ViewBag.EventId = (eventId== null)?0 : eventId;
+            return View(imageList);
+        }
+
+        [HttpPost]
+        public ActionResult ImageUploaderPost(ImageUpload img, HttpPostedFileBase file, int RecentEventId)
+        {
+            if (file != null)
+            {
+                file.SaveAs(HttpContext.Server.MapPath("~/Content/recent/")
+                                                      + file.FileName);
+                img.EventId = RecentEventId;
+                img.ImageLocation = file.FileName;
+            }
+            db.ImageUpload.Attach(img);
+            db.ImageUpload.Add(img);
+            db.SaveChanges();
+            return RedirectToAction("ImageUploader", new { eventId = RecentEventId });
+        }
+
+        public ActionResult ImageDelete(int imageId)
+        {
+            ImageUpload image = db.ImageUpload.Where(x => x.ImageId == imageId).FirstOrDefault();
+            var filePath = Server.MapPath("~/Content/recent/" + image.ImageLocation);
+            if (System.IO.File.Exists(filePath))
+            {
+                System.IO.File.Delete(filePath);
+            }
+            db.ImageUpload.Remove(image);
+            db.SaveChanges();
+            return RedirectToAction("ImageUploader", new { eventId = image.EventId });
         }
 
         private void SetPersistence(string userid, string name, string email, bool privateComputer)
