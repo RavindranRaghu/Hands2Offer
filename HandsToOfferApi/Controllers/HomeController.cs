@@ -343,6 +343,12 @@ namespace HandsToOfferApi.Controllers
             return RedirectToAction("ImageUploader", new { eventId = image.EventId });
         }
 
+        public ActionResult EventDetails(int eventId)
+        {
+            EventDetailsDto details = new EventDetailsDto(eventId);
+           return View(details);
+        }
+
         private void SetPersistence(string userid, string name, string email, bool privateComputer)
         {
             if (privateComputer)

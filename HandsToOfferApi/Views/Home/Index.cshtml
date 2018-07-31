@@ -9,6 +9,26 @@
     }
 }
 
+<style type="text/css">
+    #share-buttons img{
+        width: 35px;
+        padding: 5px;
+        border: 0;
+        box-shadow: 0;
+        display: inline;
+    }
+    #share-buttonss img {
+        width: 60px;
+        padding: 5px;
+        border: 0;
+        box-shadow: 0;
+        display: inline;
+    }
+    #share-buttonss  {        
+        padding-top: 50px;
+    }
+</style>
+
 <link  href="~/Content/Radio.css" rel="stylesheet"/>
 
 <div id="bodyhtml">
@@ -39,7 +59,7 @@
                                 <div class="col-sm-5">
                                     <div class="row">
                                         <div class="col-sm-12 handsEventName">
-                                            @item.ProjectName
+                                            <a href="/Home/EventDetails?eventid=@item.EventId"> @item.ProjectName</a>
                                         </div>
                                         <div class="col-sm-12 handsWeekday">
                                             <a href="https://www.google.com/maps/search/?api=1&query=@item.Address" target="_blank"> @item.Address</a>
@@ -58,7 +78,7 @@
                                             <span class="handsWeekday">@item.StartDate.ToString("ddd") </span>
                                         </div>
                                         <div class="col-sm-12 handsDay">
-                                            <span class="glyphicon glyphicon-minus" style="color:crimson"></span>
+                                            <span class="glyphicon glyphicon-circle-arrow-left" style="color:crimson"></span>
                                             @item.EndDate.ToString("dd") @item.EndDate.ToString("MMM") @item.EndDate.ToString("yy")
                                             <span class="handsMonth">@item.EndDate.ToShortTimeString() </span>
                                             <span class="handsWeekday">@item.EndDate.ToString("ddd") </span>
@@ -77,7 +97,7 @@
                                                 }
                                                 else
                                                 {
-                                                   <a href="/Home/Login">Login</a>
+                                                   <a href="/Home/Login">Join</a>
                                                 }                        
                                             }                                             
                                         </div>
@@ -90,9 +110,21 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-sm-1" style="padding-top:20px;text-align:center">
-                                    <a href="#">
-                                        Share
+                                <div id="share-buttons" class="col-sm-1" style="padding-top:0px;text-align:center">
+                                    @{
+                                        string url = "http://localhost:49554/Home/EventDetails?eventid=@item.EventId";
+                                    }
+                                    <!-- Facebook -->
+                                    <a href="http://www.facebook.com/sharer.php?u=@url" target="_blank">
+                                        <img src="https://simplesharebuttons.com/images/somacro/facebook.png" alt="Facebook" />
+                                    </a>
+                                    <!-- Twitter -->
+                                    <a href="https://twitter.com/share?url=@url&amp;text=Hands2Offer&amp;hashtags=Hands2Offer" target="_blank">
+                                        <img src="https://simplesharebuttons.com/images/somacro/twitter.png" alt="Twitter" />
+                                    </a>
+                                    <!-- Email -->
+                                    <a href="mailto:?Subject=Simple Share Buttons&amp;Body=I%20saw%20this%20and%20thought%20of%20you!%20 @url">
+                                        <img src="https://simplesharebuttons.com/images/somacro/email.png" alt="Email" />
                                     </a>
                                 </div>
                             </div>
@@ -101,22 +133,82 @@
                 }
             }
         </div>
-        <div class="col-sm-2 upcomingeventAnimate" id="generaleventContainer">
-            <div class="row" style="padding-top:20px;" id="recenteventheader">
+        <div class="col-sm-2 " id="generaleventContainer">
+            <div class="row">
                 <div class="col-sm-12">
-                    <span class="subtitlehelplink">Useful Links:</span>
-                    <span class="glyphicon glyphicon-question-sign" />
-                </div>
-            </div>
-            <div class="row" id="recentevent">
-                <div class="col-sm-12">
-                    <a href="#">Get Notification on all upcoming events</a>
-                </div>
-                <div class="col-sm-12">
-                    <a href="#">Tell my friends about Hands2Offer</a>
-                </div>
-                <div class="col-sm-12">
-                    <a href="#">Create Your Profile in 3 simple steps</a>
+                    <div id="share-buttonss">
+
+                        <!-- Buffer -->
+                        <a href="https://bufferapp.com/add?url=https://simplesharebuttons.com&amp;text=Simple Share Buttons" target="_blank">
+                            <img src="https://simplesharebuttons.com/images/somacro/buffer.png" alt="Buffer" />
+                        </a>
+
+                        <!-- Digg -->
+                        <a href="http://www.digg.com/submit?url=https://simplesharebuttons.com" target="_blank">
+                            <img src="https://simplesharebuttons.com/images/somacro/diggit.png" alt="Digg" />
+                        </a>
+
+                        <!-- Email -->
+                        <a href="mailto:?Subject=Simple Share Buttons&amp;Body=I%20saw%20this%20and%20thought%20of%20you!%20 https://simplesharebuttons.com">
+                            <img src="https://simplesharebuttons.com/images/somacro/email.png" alt="Email" />
+                        </a>
+
+                        <!-- Facebook -->
+                        <a href="http://www.facebook.com/sharer.php?u=https://simplesharebuttons.com" target="_blank">
+                            <img src="https://simplesharebuttons.com/images/somacro/facebook.png" alt="Facebook" />
+                        </a>
+
+                        <!-- Google+ -->
+                        <a href="https://plus.google.com/share?url=https://simplesharebuttons.com" target="_blank">
+                            <img src="https://simplesharebuttons.com/images/somacro/google.png" alt="Google" />
+                        </a>
+
+                        <!-- LinkedIn -->
+                        <a href="http://www.linkedin.com/shareArticle?mini=true&amp;url=https://simplesharebuttons.com" target="_blank">
+                            <img src="https://simplesharebuttons.com/images/somacro/linkedin.png" alt="LinkedIn" />
+                        </a>
+
+                        <!-- Pinterest -->
+                        <a href="javascript:void((function()%7Bvar%20e=document.createElement('script');e.setAttribute('type','text/javascript');e.setAttribute('charset','UTF-8');e.setAttribute('src','http://assets.pinterest.com/js/pinmarklet.js?r='+Math.random()*99999999);document.body.appendChild(e)%7D)());">
+                            <img src="https://simplesharebuttons.com/images/somacro/pinterest.png" alt="Pinterest" />
+                        </a>
+
+                        <!-- Print -->
+                        <a href="javascript:;" onclick="window.print()">
+                            <img src="https://simplesharebuttons.com/images/somacro/print.png" alt="Print" />
+                        </a>
+
+                        <!-- Reddit -->
+                        <a href="http://reddit.com/submit?url=https://simplesharebuttons.com&amp;title=Simple Share Buttons" target="_blank">
+                            <img src="https://simplesharebuttons.com/images/somacro/reddit.png" alt="Reddit" />
+                        </a>
+
+                        <!-- StumbleUpon-->
+                        <a href="http://www.stumbleupon.com/submit?url=https://simplesharebuttons.com&amp;title=Simple Share Buttons" target="_blank">
+                            <img src="https://simplesharebuttons.com/images/somacro/stumbleupon.png" alt="StumbleUpon" />
+                        </a>
+
+                        <!-- Tumblr-->
+                        <a href="http://www.tumblr.com/share/link?url=https://simplesharebuttons.com&amp;title=Simple Share Buttons" target="_blank">
+                            <img src="https://simplesharebuttons.com/images/somacro/tumblr.png" alt="Tumblr" />
+                        </a>
+
+                        <!-- Twitter -->
+                        <a href="https://twitter.com/share?url=https://simplesharebuttons.com&amp;text=Simple%20Share%20Buttons&amp;hashtags=simplesharebuttons" target="_blank">
+                            <img src="https://simplesharebuttons.com/images/somacro/twitter.png" alt="Twitter" />
+                        </a>
+
+                        <!-- VK -->
+                        <a href="http://vkontakte.ru/share.php?url=https://simplesharebuttons.com" target="_blank">
+                            <img src="https://simplesharebuttons.com/images/somacro/vk.png" alt="VK" />
+                        </a>
+
+                        <!-- Yummly -->
+                        <a href="http://www.yummly.com/urb/verify?url=https://simplesharebuttons.com&amp;title=Simple Share Buttons" target="_blank">
+                            <img src="https://simplesharebuttons.com/images/somacro/yummly.png" alt="Yummly" />
+                        </a>
+
+                    </div>
                 </div>
             </div>
         </div>
@@ -140,18 +232,18 @@
                     @{
                         if (!String.IsNullOrEmpty(item.ImageLocation))
                         {
-                            <img src="~/Content/recent/@item.ImageLocation" style="max-height:80px;" />
+                            <a href="/Home/EventDetails?eventid=@item.EventId"><img src="~/Content/recent/@item.ImageLocation" style="max-height:80px;" /></a>                            
                         }
                         else
                         {
-                            <img src="~/Content/recent/Image-1.jpg" style="max-height:80px;" />
+                            <a href="/Home/EventDetails?eventid=@item.EventId"><img src="~/Content/recent/Image-1.jpg" style="max-height:80px;" /></a>                                                        
                         }
                     }
                 </div>
                 <div class="col-sm-8">
                     <div class="row">
                         <div class="col-sm-12 recentEventText">
-                            @item.ProjectDesc
+                            <a href="/Home/EventDetails?eventid=@item.EventId">@item.ProjectDesc</a>
                         </div>
                         <div class="col-sm-12 recentEventComment">
                             @item.EndDate.ToString("dd") @item.EndDate.ToString("MMM") @item.EndDate.ToString("yy")  | @item.Address
@@ -159,7 +251,10 @@
                     </div>
                     <hr />
                 </div>
-                <div class="col-sm-2"></div>
+                <div class="col-sm-2">
+                    <!-- I got these buttons from simplesharebuttons.com -->
+
+                </div>
             </div>
                 }
             }
@@ -232,12 +327,12 @@
 
 <script>
     $(function () {
-        $("#navbarfaq").hide();
-        setTimeout(function () {
-            $("#generaleventContainer").removeClass('upcomingeventAnimate');
-            $("#generaleventContainer").hide();
-            $("#navbarfaq").show();
-        }, 8000);
+       // $("#navbarfaq").hide();
+      //  setTimeout(function () {
+       //     $("#generaleventContainer").removeClass('upcomingeventAnimate');
+       //     $("#generaleventContainer").hide();
+        //    $("#navbarfaq").show();
+        //}, 8000);
 
         $(document).on('click', '.joinUsModal', function () {
             $('#exampleModalLabel').html('Join us: ' + $(this).data('name'));
