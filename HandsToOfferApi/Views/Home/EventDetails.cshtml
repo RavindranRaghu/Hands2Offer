@@ -11,43 +11,57 @@
 <div style="padding:20px;padding-top:80px;">
     <div class="row">
         <div class="col-sm-12">
-            <div class="handsEventName">@Model.evenT.ProjectName</div>
+            <div class="projectName">@Model.evenT.ProjectName</div>
         </div>
         <div class="col-sm-12">
-            <div class="handsDay"> @Model.evenT.ProjectDesc</div>
+            <div class="projectDesc"><div>@Model.evenT.ProjectDesc</div></div>
         </div>
-        <div class="col-sm-12">
+        <div class="col-sm-12 paddingLeft">
             <div class="row handsCalender">
                 <div class="col-sm-12 handsDay padbottom">
-                    <span>Begins: </span>
+                    <div class="handsMonth textDecoration padbottom">When time and day</div>
+                    <span>Begins at </span>
                     @Model.evenT.StartDate.ToString("dd") @Model.evenT.StartDate.ToString("MMM") @Model.evenT.StartDate.ToString("yy")
-                    <span class="handsMonth">@Model.evenT.StartDate.ToShortTimeString() </span>
-                    <span class="handsWeekday">@Model.evenT.StartDate.ToString("ddd") </span>
-                    <span> and Ends: </span>
+                    <span class="handsDay">@Model.evenT.StartDate.ToShortTimeString() </span>
+                    <span class="handsDay">@Model.evenT.StartDate.ToString("ddd") </span>
+                    <span> and Ends by </span>
                     @Model.evenT.EndDate.ToString("dd") @Model.evenT.EndDate.ToString("MMM") @Model.evenT.EndDate.ToString("yy")
-                    <span class="handsMonth">@Model.evenT.EndDate.ToShortTimeString() </span>
-                    <span class="handsWeekday">@Model.evenT.EndDate.ToString("ddd") </span>
+                    <span class="handsDay">@Model.evenT.EndDate.ToShortTimeString() </span>
+                    <span class="handsDay">@Model.evenT.EndDate.ToString("ddd") </span>
                 </div>
+
             </div>
         </div>
-        <div class="col-sm-12">
-            <div class="handsMonth">Who is Volunteering</div>
+        <div class="col-sm-12 paddingLeft">
+            <div class="handsMonth textDecoration">Who is Volunteering</div>
             @{
-            foreach (HandsToOfferApi.Dto.EventParticipants participant in Model.participants)
-            {
-                <div class="row handsCalender">
-                    <div class="col-sm-12 handsDay padbottom">
-                        @participant.Name is @participant.Joining attending
-                    </div>
-                </div>
-        }
+                if(Model.participants.Count > 0)
+                {
+                    foreach (HandsToOfferApi.Dto.EventParticipants participant in Model.participants)
+                    {
+                        <div class="row handsCalender">
+                            <div class="col-sm-12 handsDay padbottom">
+                                @participant.Name is @participant.Joining attending
+                            </div>
+                        </div>
+                    }
+                }
+                else
+                {
+                     <div class="row handsCalender">
+                            <div class="col-sm-12 handsDay padbottom">
+                                No participants yet
+                            </div>
+                        </div>
+                }
+
             }
 
         </div>
-        <div class="col-sm-12">
-            <span class="handsEventName">Manual Slideshow</span>
-            <button class="w3-button w3-display-left" onclick="plusDivs(-1)">&#10094;</button>
-            <button class="w3-button w3-display-right" onclick="plusDivs(+1)">&#10095;</button>
+        <div class="col-sm-12 paddingLeft">
+            <span class="handsEventName">Event Pictures</span>
+            <button class="btn btn-link" onclick="plusDivs(-1)"><span class="glyphicon glyphicon-circle-arrow-left"></span></button>
+            <button class="btn btn-link" onclick="plusDivs(+1)"><span class="glyphicon glyphicon-circle-arrow-right"></span></button>
             <div class="col-sm-12 w3-content w3-display-container">
 
                 @{
